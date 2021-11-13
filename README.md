@@ -107,6 +107,8 @@ odoo.define('point_of_sale.OrderReceipt', function (require) {
 ![post inherit 2](https://user-images.githubusercontent.com/33801510/141647136-5bd0b70c-d6e9-466d-9ca4-53143d61114c.png)
 
 2- inherit pos receipt screen xml by xpath
+3 - use t tag for access JS values 
+4 - use api.qrserver.com public api to get the QR code with given data
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
