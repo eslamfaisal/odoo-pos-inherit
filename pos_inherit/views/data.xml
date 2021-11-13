@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="assets" inherit_id="point_of_sale.assets">
+            <xpath expr="//script[@src='/point_of_sale/static/src/js/Screens/ReceiptScreen/OrderReceipt.js']"
+                   position="replace">
+                <script type="text/javascript" src="/pos_inherit/static/src/js/OrderReceipt.js"/>
+            </xpath>
+
+        </template>
+
+    </data>
+</odoo>
