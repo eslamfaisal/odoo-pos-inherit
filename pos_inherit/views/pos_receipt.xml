@@ -13,19 +13,25 @@
                 qrData += ":التاريخ "+ "<t t-esc="receipt.date.localestring"/>";
                 qrData += "%0A";
                 qrData += "المبلغ الكلي: "+ "<t t-esc="receipt.total_with_tax"/>";
-                qrData += "%0A";
-                qrData += "العميل: "+ "
-                <t t-if="receipt.client"><t t-esc="receipt.client.name"></t></t>";
-                qrData += "%0A";
-                qrData += "الرقم الضريبي: "+ "
-                <t t-if="receipt.client"><t t-esc="receipt.client.name"></t></t>";
 
-                var elem = document.createElement("img");
-                elem.setAttribute("src", "images/hydrangeas.jpg");
-                elem.setAttribute("height", "180");
-                elem.setAttribute("width", "180");
-                elem.setAttribute("src", "https://api.qrserver.com/v1/create-qr-code/?data="+qrData);
-                document.getElementById("placehere").appendChild(elem);
+                var clientName = "<t t-if="receipt.client"><t t-esc="receipt.client.name"></t></t>";
+                if(clientName !== ""){
+                    qrData += "%0A";
+                    qrData += "العميل: "+ clientName;
+                }
+
+                var clientVat = "<t t-if="receipt.client"><t t-esc="receipt.client.vat"></t></t>";
+                if(clientVat !== ""){
+                    qrData += "%0A";
+                    qrData += "الرقم الضريبي: "+ clientVat;
+                }
+
+                var qrCodeElement = document.createElement("img");
+                qrCodeElement.setAttribute("src", "images/hydrangeas.jpg");
+                qrCodeElement.setAttribute("height", "180");
+                qrCodeElement.setAttribute("width", "180");
+                qrCodeElement.setAttribute("src", "https://api.qrserver.com/v1/create-qr-code/?data="+qrData);
+                document.getElementById("placehere").appendChild(qrCodeElement);
             </script>
         </xpath>
 
