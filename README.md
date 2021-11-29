@@ -115,32 +115,45 @@ odoo.define('point_of_sale.OrderReceipt', function (require) {
     <t t-name="OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension" owl="1">
         <xpath expr="//div[hasclass('pos-receipt-order-data')]" position="after">
 
-            <img id="qr_image"
-                 style="width:180px;height:180px; margin-left:60px;margin-top:16px;"/>
+            <div id="placehere" style="margin-left:60px;margin-top:16px;margin-right:60px;"></div>
 
-            <script>
-                let image = document.getElementById('qr_image');
-                let qrData = " :اسم المورد "+ " <t t-esc="receipt.company.name"/>";
+            <script type="text/javascript">
+                var qrData = " :اسم المورد "+ " <t t-esc="receipt.company.name"/>";
                 qrData += "%0A";
                 qrData += "الرقم الضريبي: "+ "<t t-esc="receipt.company.vat"/>";
                 qrData += "%0A";
                 qrData += ":التاريخ "+ "<t t-esc="receipt.date.localestring"/>";
                 qrData += "%0A";
                 qrData += "المبلغ الكلي: "+ "<t t-esc="receipt.total_with_tax"/>";
-                qrData += "%0A";
-                qrData += "العميل: "+ "<t t-esc="receipt.client.name"/>";
-                qrData += "%0A";
-                qrData += "الرقم الضريبي: "+ "<t t-esc="receipt.client.vat"/>";
-                image.src = "https://api.qrserver.com/v1/create-qr-code/?data="+qrData;
-                </script>
+
+                var clientName = "<t t-if="receipt.client"><t t-esc="receipt.client.name"></t></t>";
+                if(clientName !== ""){
+                    qrData += "%0A";
+                    qrData += "العميل: "+ "<t t-if="receipt.client"><t t-esc="receipt.client.name"></t></t>";
+                }
+
+                var clientVat = "<t t-if="receipt.client"><t t-esc="receipt.client.vat"></t></t>";
+                if(clientVat !== ""){
+                    qrData += "%0A";
+                    qrData += "الرقم الضريبي: "+ "<t t-if="receipt.client"><t t-esc="receipt.client.vat"></t></t>";
+                }
+
+                var qrCodeElement = document.createElement("img");
+                qrCodeElement.setAttribute("src", "images/hydrangeas.jpg");
+                qrCodeElement.setAttribute("height", "180");
+                qrCodeElement.setAttribute("width", "180");
+                qrCodeElement.setAttribute("src", "https://api.qrserver.com/v1/create-qr-code/?data="+qrData);
+                document.getElementById("placehere").appendChild(qrCodeElement);
+            </script>
         </xpath>
 
         <xpath expr="//div[hasclass('cashier')]" position="after">
-        <div>Served for <t t-esc="receipt.client.name"/></div>
+            <div>Served for <t t-if="receipt.client"> <t t-esc="receipt.client.name"></t> </t></div>
 
         </xpath>
     </t>
 </templates>
+
 
 ```
 
